@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}{{ robot.robot_name }} - Robocon{% endblock %}
+{% block content %}
+<a href="{% url 'robots' %}" class="back">← Back to Robots</a>
+<div class="info-box">
+    <div>
+        <h2>🤖 {{ robot.robot_name }}</h2>
+        <p>📍 Location: {{ robot.location }}</p>
+        <p>Status: <span class="badge {{ robot.status|lower|cut:' ' }}">{{ robot.status }}</span></p>
+    </div>
+    <div>
+        <p>📡 Total Sensors: <strong>{{ sensors.count }}</strong></p>
+        <p>📊 Total Readings: <strong>{{ readings.count }}</strong></p>
+    </div>
+</div>
+
+<h3>📡 Sensors</h3>
+<table>
+    <tr><th>ID</th><th>Sensor Type</th><th>Unit</th><th>Min</th><th>Max</th></tr>
+    {% for s in sensors %}
+    <tr>
+        <td>{{ s.sensor_id }}</td>
+        <td>{{ s.sensor_type }}</td>
+        <td>{{ s.unit }}</td>
+        <td>{{ s.min_value }}</td>
+        <td>{{ s.max_value }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+
+<h3>📊 Sensor Readings</h3>
+<table>
+    <tr><th>ID</th><th>Sensor</th><th>Value</th><th>Unit</th><th>Time</th><th>Status</th></tr>
+    {% for r in readings %}
+    <tr>
+        <td>{{ r.reading_id }}</td>
+        <td>{{ r.sensor.sensor_type }}</td>
+        <td>{{ r.value }}</td>
+        <td>{{ r.sensor.unit }}</td>
+        <td>{{ r.reading_time }}</td>
+        <td>
+            {% if r.value > r.sensor.max_value %}
+                <span class="warning">⚠️ Above Max</span>
+            {% elif r.value < r.sensor.min_value %}
+                <span class="warning">⚠️ Below Min</span>
+            {% else %}
+                <span class="normal">✅ Normal</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+
+<h3>🎮 Actuators Triggered</h3>
+<table>
+    <tr><th>ID</th><th>Sensor</th><th>Value</th><th>Actuator</th><th>Placement</th><th>Time</th></tr>
+    {% for c in controls %}
+    <tr>
+        <td>{{ c.control_id }}</td>
+        <td>{{ c.reading.sensor.sensor_type }}</td>
+        <td>{{ c.reading.value }}</td>
+        <td><strong>{{ c.actuator.actuation_type }}</strong></td>
+        <td>{{ c.actuator.placement }}</td>
+        <td>{{ c.reading.reading_time }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

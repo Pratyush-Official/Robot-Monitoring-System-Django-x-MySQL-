@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Robots - Robocon{% endblock %}
+{% block content %}
+<div class="top-bar">
+    <h2>🤖 Robots</h2>
+    <a href="{% url 'robot_add' %}" class="btn btn-primary">+ Add Robot</a>
+</div>
+<table>
+    <tr><th>ID</th><th>Robot Name</th><th>Location</th><th>Status</th><th>Actions</th></tr>
+    {% for robot in robots %}
+    <tr>
+        <td>{{ robot.robot_id }}</td>
+        <td><strong>{{ robot.robot_name }}</strong></td>
+        <td>{{ robot.location }}</td>
+        <td><span class="badge {{ robot.status|lower|cut:' ' }}">{{ robot.status }}</span></td>
+        <td>
+            <a href="{% url 'robot_detail' robot.robot_id %}" class="btn btn-view">View</a>
+            <a href="{% url 'robot_edit' robot.robot_id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'robot_delete' robot.robot_id %}" class="btn btn-delete">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

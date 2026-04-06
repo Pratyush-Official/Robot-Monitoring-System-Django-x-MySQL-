@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Robocon{% endblock %}
+{% block content %}
+<h2>📊 Dashboard</h2>
+<div class="card-row">
+    <div class="card"><h2>{{ total_robots }}</h2><p>Robots</p></div>
+    <div class="card"><h2>{{ total_sensors }}</h2><p>Sensors</p></div>
+    <div class="card"><h2>{{ total_readings }}</h2><p>Readings</p></div>
+    <div class="card"><h2>{{ total_actuators }}</h2><p>Actuators</p></div>
+</div>
+<div class="top-bar">
+    <h3>All Robots</h3>
+    <a href="{% url 'robot_add' %}" class="btn btn-primary">+ Add Robot</a>
+</div>
+<table>
+    <tr><th>ID</th><th>Robot Name</th><th>Location</th><th>Status</th></tr>
+    {% for robot in robots %}
+    <tr>
+        <td>{{ robot.robot_id }}</td>
+        <td><strong>{{ robot.robot_name }}</strong></td>
+        <td>{{ robot.location }}</td>
+        <td><span class="badge {{ robot.status|lower|cut:' ' }}">{{ robot.status }}</span></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

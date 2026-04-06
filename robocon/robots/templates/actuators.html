@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Actuators - Robocon{% endblock %}
+{% block content %}
+<h2>⚙️ Actuators</h2>
+<table>
+    <tr><th>ID</th><th>Type</th><th>Power (W)</th><th>Placement</th><th>Times Triggered</th></tr>
+    {% for a in actuators %}
+    <tr>
+        <td>{{ a.actuator_id }}</td>
+        <td><strong>{{ a.actuation_type }}</strong></td>
+        <td>{{ a.power_consumption }}W</td>
+        <td>{{ a.placement }}</td>
+        <td>{{ a.times_triggered }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Robocon</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-box { background: white; padding: 40px; border-radius: 15px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .login-box h1 { text-align: center; color: #e94560; margin-bottom: 8px; font-size: 28px; }
+        .login-box p { text-align: center; color: #777; margin-bottom: 30px; font-size: 14px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: bold; color: #333; font-size: 14px; }
+        .form-group input { width: 100%; padding: 10px 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+        .form-group input:focus { outline: none; border-color: #e94560; }
+        .btn-login { width: 100%; padding: 12px; background: #e94560; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn-login:hover { background: #c73652; }
+        .msg-error { background: #f8d7da; color: #721c24; padding: 10px 15px; border-radius: 5px; margin-bottom: 20px; font-size: 14px; }
+    </style>
+</head>
+<body>
+<div class="login-box">
+    <h1>🤖 Robocon</h1>
+    <p>Robot Sensor Monitoring System</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="msg-error">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter username" required autofocus>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+    </form>
+</div>
+</body>
+</html>

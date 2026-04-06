@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Sensors - Robocon{% endblock %}
+{% block content %}
+<h2>📡 Sensors</h2>
+<form method="GET" class="filters">
+    <select name="robot_id" onchange="this.form.submit()">
+        <option value="">-- All Robots --</option>
+        {% for robot in robots %}
+        <option value="{{ robot.robot_id }}" {% if selected_robot == robot.robot_id|stringformat:"s" %}selected{% endif %}>
+            {{ robot.robot_name }}
+        </option>
+        {% endfor %}
+    </select>
+</form>
+<table>
+    <tr><th>ID</th><th>Robot</th><th>Sensor Type</th><th>Unit</th><th>Min</th><th>Max</th></tr>
+    {% for s in sensors %}
+    <tr>
+        <td>{{ s.sensor_id }}</td>
+        <td>{{ s.robot.robot_name }}</td>
+        <td>{{ s.sensor_type }}</td>
+        <td>{{ s.unit }}</td>
+        <td>{{ s.min_value }}</td>
+        <td>{{ s.max_value }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

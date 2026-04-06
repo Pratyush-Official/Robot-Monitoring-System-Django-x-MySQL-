@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Control - Robocon{% endblock %}
+{% block content %}
+<h2>🎮 Control — Readings Triggering Actuators</h2>
+<form method="GET" class="filters">
+    <select name="robot_id" onchange="this.form.submit()">
+        <option value="">-- All Robots --</option>
+        {% for robot in robots %}
+        <option value="{{ robot.robot_id }}" {% if selected_robot == robot.robot_id|stringformat:"s" %}selected{% endif %}>
+            {{ robot.robot_name }}
+        </option>
+        {% endfor %}
+    </select>
+</form>
+<table>
+    <tr><th>ID</th><th>Robot</th><th>Sensor</th><th>Value</th><th>Time</th><th>Actuator</th><th>Placement</th></tr>
+    {% for c in controls %}
+    <tr>
+        <td>{{ c.control_id }}</td>
+        <td>{{ c.reading.sensor.robot.robot_name }}</td>
+        <td>{{ c.reading.sensor.sensor_type }}</td>
+        <td>{{ c.reading.value }}</td>
+        <td>{{ c.reading.reading_time }}</td>
+        <td><strong>{{ c.actuator.actuation_type }}</strong></td>
+        <td>{{ c.actuator.placement }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

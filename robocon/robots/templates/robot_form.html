@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }} Robot - Robocon{% endblock %}
+{% block content %}
+<a href="{% url 'robots' %}" class="back">← Back to Robots</a>
+<h2>{{ action }} Robot</h2>
+<div style="background:white; padding:30px; border-radius:10px; max-width:500px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <form method="POST">
+        {% csrf_token %}
+        <div style="margin-bottom:20px;">
+            <label style="display:block; margin-bottom:6px; font-weight:bold;">Robot Name</label>
+            <input type="text" name="robot_name" value="{{ robot.robot_name }}" required style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;">
+        </div>
+        <div style="margin-bottom:20px;">
+            <label style="display:block; margin-bottom:6px; font-weight:bold;">Location</label>
+            <input type="text" name="location" value="{{ robot.location }}" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;">
+        </div>
+        <div style="margin-bottom:20px;">
+            <label style="display:block; margin-bottom:6px; font-weight:bold;">Status</label>
+            <select name="status" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;">
+                <option value="active" {% if robot.status == 'active' %}selected{% endif %}>Active</option>
+                <option value="retired" {% if robot.status == 'retired' %}selected{% endif %}>Retired</option>
+                <option value="in development" {% if robot.status == 'in development' %}selected{% endif %}>In Development</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">{{ action }} Robot</button>
+        <a href="{% url 'robots' %}" class="btn btn-view" style="margin-left:10px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

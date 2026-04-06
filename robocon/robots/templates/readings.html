@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Readings - Robocon{% endblock %}
+{% block content %}
+<h2>📊 Sensor Readings</h2>
+<form method="GET" class="filters">
+    <select name="robot_id" onchange="this.form.submit()">
+        <option value="">-- All Robots --</option>
+        {% for robot in robots %}
+        <option value="{{ robot.robot_id }}" {% if selected_robot == robot.robot_id|stringformat:"s" %}selected{% endif %}>
+            {{ robot.robot_name }}
+        </option>
+        {% endfor %}
+    </select>
+    <select name="sensor_id">
+        <option value="">-- All Sensors --</option>
+        {% for s in sensors %}
+        <option value="{{ s.sensor_id }}" {% if selected_sensor == s.sensor_id|stringformat:"s" %}selected{% endif %}>
+            {{ s.sensor_type }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a href="{% url 'readings' %}" class="btn btn-view">Reset</a>
+</form>
+<table>
+    <tr><th>ID</th><th>Robot</th><th>Sensor</th><th>Value</th><th>Unit</th><th>Time</th><th>Status</th></tr>
+    {% for r in readings %}
+    <tr>
+        <td>{{ r.reading_id }}</td>
+        <td>{{ r.sensor.robot.robot_name }}</td>
+        <td>{{ r.sensor.sensor_type }}</td>
+        <td>{{ r.value }}</td>
+        <td>{{ r.sensor.unit }}</td>
+        <td>{{ r.reading_time }}</td>
+        <td>
+            {% if r.status == 'above' %}<span class="warning">⚠️ Above Max</span>
+            {% elif r.status == 'below' %}<span class="warning">⚠️ Below Min</span>
+            {% else %}<span class="normal">✅ Normal</span>{% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
